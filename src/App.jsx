@@ -5,42 +5,30 @@ import Courses from "./pages/Courses";
 import Projects from "./pages/Projects";
 import Resources from "./pages/Resources";
 import "./App.css";
-import { FaMoon, FaSun, FaUser } from "react-icons/fa";
-import course1 from "./assets/rasm1.png";
-import course2 from "./assets/rasm1.png";
-import course3 from "./assets/rasm1.png";
-import course4 from "./assets/rasm1.png";
-
-// import './mainContent.css'
+import { FaMoon, FaSun, FaUser, FaSignOutAlt, FaCog } from "react-icons/fa";
+import rasm1 from './assets/rasm1.png'
+import rasm2 from './assets/VR2.jpg'
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [showAccountMenu, setShowAccountMenu] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const courses = [
-
-    { img: course4, title: "Axborot tizimlarini loyihalash", desc: "UML tili diagrammalarni yaratish" },
-    { img: course4, title: "Axborot tizimlarini loyihalash", desc: "UML tili diagrammalarni yaratish" },
-    { img: course4, title: "Axborot tizimlarini loyihalash", desc: "UML tili diagrammalarni yaratish" },
-    { img: course4, title: "Axborot tizimlarini loyihalash", desc: "UML tili diagrammalarni yaratish" },
-    { img: course4, title: "Axborot tizimlarini loyihalash", desc: "UML tili diagrammalarni yaratish" },
-    { img: course4, title: "Axborot tizimlarini loyihalash", desc: "UML tili diagrammalarni yaratish" },
-    { img: course4, title: "Axborot tizimlarini loyihalash", desc: "UML tili diagrammalarni yaratish" },
-    { img: course4, title: "Axborot tizimlarini loyihalash", desc: "UML tili diagrammalarni yaratish" },
-
-  ];
-
   return (
     <Router>
       <div className={`container ${darkMode ? "dark" : ""}`}>
+        {/* Sidebar */}
         <nav className="sidebar">
-          <h2>UMFT Talim Platformasi</h2>
+          <h2>UMFT</h2>
           <ul>
             <li><Link to="/">Bosh sahifa</Link></li>
             <li><Link to="/courses">Fanlarga oid darslar</Link></li>
@@ -49,23 +37,57 @@ const App = () => {
           </ul>
         </nav>
 
+        {/* Navbar */}
         <header className={`navbar ${scrolled ? "scrolled" : ""}`}>
           <div className="navbar-content">
             <button onClick={() => setDarkMode(!darkMode)} className="dark-mode-btn">
               {darkMode ? <FaSun /> : <FaMoon />}
             </button>
-            <FaUser className="profile-icon" />
+
+            {/* User Account */}
+            <div
+              className="user-account"
+              onMouseEnter={() => setShowAccountMenu(true)}
+              onMouseLeave={() => setShowAccountMenu(false)}
+            >
+              <FaUser className="profile-icon" />
+              {showAccountMenu && (
+                <div className="account-menu">
+                  <Link to="/settings"><FaCog /> Settings</Link>
+                  <Link to="/logout"><FaSignOutAlt /> Log Out</Link>
+                </div>
+              )}
+            </div>
           </div>
         </header>
 
+        {/* Main Content */}
         <div className="content">
           <div className="course-container">
-            {courses.map((course, index) => (
-              <div className="course-card" key={index}>
+            {[
+              { img: rasm2, title: "Kompuyter modelashtirish va simullatsiyasi", desc: "3D modellarni obyektlarga bogʻlash" },
+              { img: rasm1, title: "Axborot tizimlarini loyihalash", desc: "UML tili diagrammalarni yaratish" },
+              { img: rasm1, title: "Kompyuter kriminalistikasi", desc: "Parollar bilan ishlash" },
+              { img: rasm1, title: "Sun'iy intellekt va neyron tarmoqlari", desc: "Sun'iy intellekt ga kirish" },
+              { img: rasm1, title: "Ma'lumotlarning intellektual tahlili", desc: "Ma'lumotlar turlari" },
+              { img: rasm1, title: "Kompuyter modelashtirish va simullatsiyasi", desc: "3D modellarni obyektlarga bogʻlash" },
+              { img: rasm2, title: "Kompuyter modelashtirish va simullatsiyasi", desc: "3D modellarni obyektlarga bogʻlash" },
+              { img: rasm1, title: "Axborot tizimlarini loyihalash", desc: "UML tili diagrammalarni yaratish" },
+              { img: rasm1, title: "Kompyuter kriminalistikasi", desc: "Parollar bilan ishlash" },
+              { img: rasm1, title: "Sun'iy intellekt va neyron tarmoqlari", desc: "Sun'iy intellekt ga kirish" },
+              { img: rasm1, title: "Ma'lumotlarning intellektual tahlili", desc: "Ma'lumotlar turlari" },
+              { img: rasm2, title: "Kompuyter modelashtirish va simullatsiyasi", desc: "3D modellarni obyektlarga bogʻlash" },
+           
+        
+            ].map((course, index) => (
+              <div key={index} className="course-card">
                 <img src={course.img} alt={course.title} />
+                <div className="course-card-title">
+                
                 <h4>{course.title}</h4>
                 <p>{course.desc}</p>
                 <button>Darsni ko'rish</button>
+                </div>
               </div>
             ))}
           </div>
